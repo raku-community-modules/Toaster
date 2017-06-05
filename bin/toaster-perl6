@@ -3,6 +3,7 @@ use lib <lib>;
 use Toaster;
 use WhereList;
 
-sub MAIN (*@commits where all-items(Str, *.so) = ['nom']) {
+sub MAIN (*@commits where all-items(Str, *.so)) {
+    @commits ||= ['nom'];
     Toaster.new(:@commits).toast-all;
 }
