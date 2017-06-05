@@ -27,7 +27,7 @@ class Zefyr {
 
         react whenever proc-q @modules.map(
             «zef --debug install "$_" "-to=inst#$store"»
-        ), :tags[@modules], :$batch, -> $r {
+        ), :tags[@modules], :$batch -> $r {
             say join ' ', "Finished $r.tag(): ",
                  <SUCCEEDED!  FAILED!>[.out.contains: 'FAILED' or .killed],
                  ('(killed)' if .killed);
