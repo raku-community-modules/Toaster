@@ -3,19 +3,22 @@
     "name"         : "Toaster",
     "license"      : "Artistic-2.0",
     "version"      : "1.001001",
-    "description"  : "Queue up and run a herd of Procs",
-    "tags"         : [ "proc", "process" ],
+    "description"  : "Toaster of Perl 6 Ecosystem Modules",
+    "tags"         : [ "ecosystem", "testing" ],
     "depends"      : [
-        "RakudoPrereq"
+        "DBIish",
+        "Proc::Q",
+        "WhereList",
+        "WWW"
     ],
     "test-depends" : [
         "Testo",
-        "Test::Notice",
         "Test::META"
     ],
     "provides"     : {
-        "Proc::Q" : "lib/Proc/Q.pm6"
+        "Toaster"     : "lib/Toaster.pm6",
+        "Toaster::DB" : "lib/Toaster/DB.pm6"
     },
     "authors"       : ["Zoffix Znet"],
-    "support"       : {"source" : "https://github.com/zoffixznet/perl6-Proc-Q.git"}
+    "support"       : {"source" : "https://github.com/zoffixznet/perl6-Toaster.git"}
 }
