@@ -29,7 +29,7 @@ method toast (*@modules) {
         «zef --debug install "$_" "-to=inst#$store"»
     }), :tags[@modules], :$batch -> $r {
         say join ' ', "Finished $r.tag(): ",
-             <SUCCEEDED!  FAILED!>[.out.contains: 'FAILED' or .killed],
-             ('(killed)' if .killed);
+             <SUCCEEDED!  FAILED!>[$r.out.contains: 'FAILED' or $r.killed],
+             ('(killed)' if $r.killed);
     }
 }
