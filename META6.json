@@ -7,6 +7,7 @@
     "tags"         : [ "ecosystem", "testing" ],
     "depends"      : [
         "DBIish",
+        "Temp::Path",
         "Proc::Q",
         "WhereList",
         "WWW"
