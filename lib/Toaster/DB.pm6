@@ -20,7 +20,7 @@ method deploy {
             rakudo_long TEXT NOT NULL,
             module      TEXT NOT NULL,
             status      TEXT NOT NULL,
-            time        INTEGER NOT NULL
+            time        INTEGER NOT NULL,
             stderr      TEXT NOT NULL,
             stdout      TEXT NOT NULL,
             exitcode    TEXT NOT NULL
@@ -41,8 +41,7 @@ method add (
         INSERT INTO toast (
             rakudo, rakudo_long, module,
             stderr, stdout, exitcode, status, time
-        )
-        VALUES (?, ?, ?, ?, ?)
+        ) VALUES (?, ?, ?, ?,  ?, ?, ?, ?)
     ｣, $rakudo, $rakudo-long, $module, $stderr, $stdout, $exitcode,
       ~$status, time;
     self
