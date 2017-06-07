@@ -11,7 +11,7 @@ use Toaster::DB;
 has $.db = Toaster::DB.new;
 has @.commits where all-items(Str, *.so) = ['nom'];
 
-constant INSTALL_TIMEOUT = 500*60;
+constant INSTALL_TIMEOUT = 10*60;
 constant ECO_API = 'https://modules.perl6.org/.json';
 constant BANNED_MODULES = (); # regex objects to regex over the name
 
@@ -38,7 +38,7 @@ method toast (@modules) {
     react whenever proc-q @modules.map({
         my $where = $store.add(.subst: :g, /\W/, '_').mkdir;
         «zef --debug install "$_" "-to=inst#$where"»
-    }), :tags[@modules], :$batch {
+    }), :tags[@modules], :$batch, :timeout(INSTALL_TIMEOUT) {
         my ToastStatus $status = .killed
           ?? Kill !! .out.contains('FAILED') ?? Fail !! Succ;
 
