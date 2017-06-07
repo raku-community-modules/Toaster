@@ -42,7 +42,7 @@ method toast (@modules) {
         my ToastStatus $status = .killed
           ?? Kill !! .out.contains('FAILED') ?? Fail !! Succ;
 
-        $!db.add: $rakudo, $rakudo-long, .tag, $status;
+        $!db.add: $rakudo, $rakudo-long, .tag, .out, .err, ~.exitcode, $status;
         say colored "Finished {.tag}: $status", <red green>[$status ~~ Succ];
     }
 }

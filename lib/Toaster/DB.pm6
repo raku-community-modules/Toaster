@@ -21,6 +21,9 @@ method deploy {
             module      TEXT NOT NULL,
             status      TEXT NOT NULL,
             time        INTEGER NOT NULL
+            stderr      TEXT NOT NULL,
+            stdout      TEXT NOT NULL,
+            exitcode    TEXT NOT NULL
         )
     ｣;
     self
@@ -28,15 +31,20 @@ method deploy {
 
 method add (
   Str:D $rakudo, Str:D $rakudo-long, Str:D $module,
+  Str:D $stderr, Str:D $stdout,      Str:D $exitcode,
   ToastStatus $status
 )  {
     $!dbh.do: ｢
         DELETE FROM toast WHERE rakudo = ? AND rakudo_long = ? AND module = ?
     ｣, $rakudo, $rakudo-long, $module;
     $!dbh.do: ｢
-        INSERT INTO toast (rakudo, rakudo_long, module, status, time)
+        INSERT INTO toast (
+            rakudo, rakudo_long, module,
+            stderr, stdout, exitcode, status, time
+        )
         VALUES (?, ?, ?, ?, ?)
-    ｣, $rakudo, $rakudo-long, $module, ~$status, time;
+    ｣, $rakudo, $rakudo-long, $module, $stderr, $stdout, $exitcode,
+      ~$status, time;
     self
 }
 
