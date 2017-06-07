@@ -15,24 +15,28 @@ submethod TWEAK {
 method deploy {
     $!dbh.do: ｢
         CREATE TABLE toast (
-            id     INTEGER PRIMARY KEY,
-            rakudo TEXT NOT NULL,
-            module TEXT NOT NULL,
-            status TEXT NOT NULL,
-            time   INTEGER NOT NULL
+            id          INTEGER PRIMARY KEY,
+            rakudo      TEXT NOT NULL,
+            rakudo_long TEXT NOT NULL,
+            module      TEXT NOT NULL,
+            status      TEXT NOT NULL,
+            time        INTEGER NOT NULL
         )
     ｣;
     self
 }
 
-method add (Str:D $rakudo, Str:D $module, ToastStatus $status)  {
+method add (
+  Str:D $rakudo, Str:D $rakudo-long Str:D $module,
+  ToastStatus $status
+)  {
     $!dbh.do: ｢
-        DELETE FROM toast WHERE rakudo = ? AND module = ?
-    ｣, $rakudo, $module;
+        DELETE FROM toast WHERE rakudo = ? AND rakudo-long = ? AND module = ?
+    ｣, $rakudo, $rakudo-long, $module;
     $!dbh.do: ｢
-        INSERT INTO toast (rakudo, module, status, time)
-        VALUES (?, ?, ?, ?)
-    ｣, $rakudo, $module, ~$status, time;
+        INSERT INTO toast (rakudo, rakudo-long, module, status, time)
+        VALUES (?, ?, ?, ?, ?)
+    ｣, $rakudo, $rakudo-long, $module, ~$status, time;
     self
 }
 

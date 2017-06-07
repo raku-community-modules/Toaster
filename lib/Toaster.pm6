@@ -28,13 +28,12 @@ method toast-all {
 }
 method toast (@modules) {
     my $store = make-temp-dir;
-    my $commit = run(:out, :!err, $*EXECUTABLE.absolute, '-e', ｢
-        with $*PERL.compiler.version.Str -> $v is copy {
-            # remove dots if we have a non-release version; `.g` seps commit SHA
-            $v .= subst: '.', '', :g if $v.contains: '.g';
-            print $v.split('g')[*-1];
-        }
+    # XXX TODO swap toaster to build own perl6s and use those to get ver from
+    my $ver = run(:out, :!err, $*EXECUTABLE.absolute, '-e', ｢
+        print $*PERL.compiler.version.Str
     ｣).out.slurp: :close;
+    my $rakudo      = $ver.subst(:th(2..*), '.', '').split('g').tail;
+    my $rakudo-long = $ver.subst(:th(2, 3), '.', '-').subst(:th(2..*), '.', '');
 
     react whenever proc-q @modules.map({
         my $where = $store.add(.subst: :g, /\W/, '_').mkdir;
@@ -43,7 +42,7 @@ method toast (@modules) {
         my ToastStatus $status = .killed
           ?? Kill !! .out.contains('FAILED') ?? Fail !! Succ;
 
-        $!db.add: $commit, .tag, $status;
+        $!db.add: $rakudo, $rakudo-long, .tag, $status;
         say colored "Finished {.tag}: $status", <red green>[$status ~~ Succ];
     }
 }
