@@ -2,9 +2,9 @@ unit class Toaster::DB;
 use DBIish;
 
 has $.db = 'toast.sqlite.db';
-has DBIish $!dbh;
+has $!dbh;
 
-subset ToastStatus of Str:D where any <S F> is export;
+enum ToastStatus is export <Succ Fail Kill>;
 
 submethod TWEAK {
     my $exists = $!db.IO.e;
@@ -12,23 +12,27 @@ submethod TWEAK {
     $exists or self.deploy
 }
 
-method deply {
+method deploy {
     $!dbh.do: ｢
         CREATE TABLE toast (
             id     INTEGER PRIMARY KEY,
-            commit TEXT NOT NULL,
+            rakudo TEXT NOT NULL,
             module TEXT NOT NULL,
-            status TEXT NOT NULL
+            status TEXT NOT NULL,
             time   INTEGER NOT NULL
         )
     ｣;
     self
 }
 
-method add (Str:D $commit, Str:D $module, ToastStatus $status)  {
+method add (Str:D $rakudo, Str:D $module, ToastStatus $status)  {
     $!dbh.do: ｢
-        INSERT INTO toast (commit, module, status, time) VALUES (?, ?, ?, ?)
-    ｣, $commit, $module, $status, time;
+        DELETE FROM toast WHERE rakudo = ? AND module = ?
+    ｣, $rakudo, $module;
+    $!dbh.do: ｢
+        INSERT INTO toast (rakudo, module, status, time)
+        VALUES (?, ?, ?, ?)
+    ｣, $rakudo, $module, ~$status, time;
     self
 }
 

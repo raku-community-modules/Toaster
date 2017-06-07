@@ -1,10 +1,14 @@
 unit class Toaster;
 
 use Proc::Q;
-use WhereList;
 use Temp::Path;
+use Terminal::ANSIColor;
+use WhereList;
 use WWW;
 
+use Toaster::DB;
+
+has $.db = Toaster::DB.new;
 has @.commits where all-items(Str, *.so) = ['nom'];
 
 constant INSTALL_TIMEOUT = 500*60;
@@ -17,19 +21,30 @@ my $batch = floor 1.3 * do with run 'lscpu', :out, :!err {
 
 
 method toast-all {
-    self.toast: run(:out, <zef list>).out.lines(:close).grep(
-        *.starts-with('#').not
-    )».trim.sort.grep: *.match: BANNED_MODULES.none;
+    my @modules = jget(ECO_API)<dists>.map(*.<name>).sort
+        .grep: *.match: BANNED_MODULES.none;
+    say "About to toast {+@modules} modules";
+    self.toast: @modules;
 }
-method toast (*@modules) {
-    @modules .= head: 20;
+method toast (@modules) {
+    @modules .= head: 10;
     my $store = make-temp-dir;
+    my $commit = run(:out, :!err, $*EXECUTABLE.absolute, '-e', ｢
+        with $*PERL.compiler.version.Str -> $v is copy {
+            # remove dots if we have a non-release version; `.g` seps commit SHA
+            $v .= subst: '.', '', :g if $v.contains: '.g';
+            print $v.split('g')[*-1];
+        }
+    ｣).out.slurp: :close;
 
     react whenever proc-q @modules.map({
-        «zef --debug install "$_" "-to=inst#$store"»
-    }), :tags[@modules], :$batch -> $r {
-        say join ' ', "Finished $r.tag(): ",
-             <SUCCEEDED!  FAILED!>[$r.out.contains: 'FAILED' or $r.killed],
-             ('(killed)' if $r.killed);
+        my $where = $store.add(.subst: :g, /\W/, '_').mkdir;
+        «zef --debug install "$_" "-to=inst#$where"»
+    }), :tags[@modules], :$batch {
+        my ToastStatus $status = .killed
+          ?? Kill !! .out.contains('FAILED') ?? Fail !! Succ;
+
+        $!db.add: $commit, .tag, $status;
+        say colored "Finished {.tag}: $status", <red green>[$status ~~ Succ];
     }
 }
