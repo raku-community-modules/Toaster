@@ -3,4 +3,4 @@ use lib <lib /var/www/tardigrade>;
 use TG;
 use Toaster::DB;
 
-TG.new.get(any </>).start
+TG.new.get('/' => '/index').start
