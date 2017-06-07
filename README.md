@@ -19,7 +19,7 @@ toasting:
     sudo apt-get update
     sudo apt-get -y upgrade
     sudo apt-get -y install build-essential git curl aptitude libssl-dev \
-        wget htop zip
+        wget htop zip sqlite3
     \curl -L https://install.perlbrew.pl | bash
     git clone https://github.com/tadzik/rakudobrew ~/.rakudobrew
     echo 'source ~/perl5/perlbrew/etc/bashrc' >> ~/.bashrc

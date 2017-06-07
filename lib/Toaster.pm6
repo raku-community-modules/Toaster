@@ -27,7 +27,6 @@ method toast-all {
     self.toast: @modules;
 }
 method toast (@modules) {
-    @modules .= head: 10;
     my $store = make-temp-dir;
     my $commit = run(:out, :!err, $*EXECUTABLE.absolute, '-e', ｢
         with $*PERL.compiler.version.Str -> $v is copy {
