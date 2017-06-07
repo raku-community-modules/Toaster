@@ -31,10 +31,10 @@ method add (
   ToastStatus $status
 )  {
     $!dbh.do: ｢
-        DELETE FROM toast WHERE rakudo = ? AND rakudo-long = ? AND module = ?
+        DELETE FROM toast WHERE rakudo = ? AND rakudo_long = ? AND module = ?
     ｣, $rakudo, $rakudo-long, $module;
     $!dbh.do: ｢
-        INSERT INTO toast (rakudo, rakudo-long, module, status, time)
+        INSERT INTO toast (rakudo, rakudo_long, module, status, time)
         VALUES (?, ?, ?, ?, ?)
     ｣, $rakudo, $rakudo-long, $module, ~$status, time;
     self
