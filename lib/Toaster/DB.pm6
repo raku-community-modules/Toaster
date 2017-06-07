@@ -27,7 +27,7 @@ method deploy {
 }
 
 method add (
-  Str:D $rakudo, Str:D $rakudo-long Str:D $module,
+  Str:D $rakudo, Str:D $rakudo-long, Str:D $module,
   ToastStatus $status
 )  {
     $!dbh.do: ｢
