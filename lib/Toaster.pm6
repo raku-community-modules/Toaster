@@ -1,4 +1,4 @@
-use RakudoPrereq v2017.05.380.g.0.a.100825.d,
+use RakudoPrereq v2017.05.380.g,
     'Toaster.pm6 module requires Rakudo v2017.06 or newer';
 
 unit class Toaster;
@@ -57,9 +57,11 @@ method toast ($commit = 'nom', @modules) {
 }
 
 method build-rakudo (Str:D $commit = 'nom') {
+    say "Starting to build rakudo $commit";
     indir RAKUDO_BUIL_DIR, {
         run «git clone "{RAKUDO_REPO}"»;
         run «git checkout "$commit"»;
+        say "Checkout done";
         run «perl Configure.pl --gen-moar --gen-nqp --backends=moar»;
         run «make»;
         run «make install»;
