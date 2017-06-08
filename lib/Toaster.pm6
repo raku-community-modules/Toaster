@@ -12,7 +12,6 @@ use WWW;
 use Toaster::DB;
 
 has $.db = Toaster::DB.new;
-has @.commits where all-items(Str, *.so) = ['nom'];
 
 constant INSTALL_TIMEOUT  = 10*60;
 constant ECO_API          = 'https://modules.perl6.org/.json';
