@@ -33,23 +33,27 @@ method toast-all ($commit = 'nom') {
     self.toast: $commit, @modules;
 }
 method toast ($commit = 'nom', @modules) {
-    self.build-rakudo: $commit;
-    my $store = make-temp-dir;
-    my $ver = run(:out, :!err, $*EXECUTABLE.absolute, '-e', ｢
-        print $*PERL.compiler.version.Str
-    ｣).out.slurp: :close;
-    my $rakudo      = $ver.subst(:th(2..*), '.', '').split('g').tail;
-    my $rakudo-long = $ver.subst(:th(2, 3), '.', '-').subst(:th(2..*), '.', '');
+    indir self.build-rakudo($commit), {
+        my $store = make-temp-dir;
+        my $ver = run(:out, :!err, $*EXECUTABLE.absolute, '-e', ｢
+            print $*PERL.compiler.version.Str
+        ｣).out.slurp: :close;
+        my $rakudo      = $ver.subst(:th(2..*), '.', '').split('g').tail;
+        my $rakudo-long
+        = $ver.subst(:th(2, 3), '.', '-').subst(:th(2..*), '.', '');
 
-    react whenever proc-q @modules.map({
-        my $where = $store.add(.subst: :g, /\W/, '_').mkdir;
-        «zef --debug install "$_" "-to=inst#$where"»
-    }), :tags[@modules], :$batch, :timeout(INSTALL_TIMEOUT) {
-        my ToastStatus $status = .killed
-          ?? Kill !! .out.contains('FAILED') ?? Fail !! Succ;
+        react whenever proc-q @modules.map({
+            my $where = $store.add(.subst: :g, /\W/, '_').mkdir;
+            «zef --debug install "$_" "-to=inst#$where"»
+        }), :tags[@modules], :$batch, :timeout(INSTALL_TIMEOUT) {
+            my ToastStatus $status = .killed
+              ?? Kill !! .out.contains('FAILED') ?? Fail !! Succ;
 
-        $!db.add: $rakudo, $rakudo-long, .tag, .out, .err, ~.exitcode, $status;
-        say colored "Finished {.tag}: $status", <red green>[$status ~~ Succ];
+            $!db.add: $rakudo, $rakudo-long,
+                .tag, .out, .err, ~.exitcode, $status;
+            say colored "Finished {.tag}: $status",
+                <red green>[$status ~~ Succ];
+        }
     }
 }
 
@@ -63,8 +67,8 @@ method build-rakudo (Str:D $commit = 'nom') {
         run «git clone "{ZEF_REPO}"»;
 
         temp %*ENV;
-        %*ENV<PATH> = $*CWD.add('/install/bin').absolute ~ ":$*ENV<PATH>";
+        %*ENV<PATH> = $*CWD.add('install/bin').absolute ~ ":$*ENV<PATH>";
         indir $*CWD.add('zef'), { run «perl6 -Ilib bin/zef install . » }
-        $*CWD.add('/install/share/perl6/site/bin').absolute ~ ":$*ENV<PATH>"
+        $*CWD.add('install/share/perl6/site/bin').absolute ~ ":$*ENV<PATH>"
     }
 }
