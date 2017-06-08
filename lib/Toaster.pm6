@@ -1,4 +1,4 @@
-use RakudoPrereq v2017.05.380.g,
+use RakudoPrereq v2017.05.380.*,
     'Toaster.pm6 module requires Rakudo v2017.06 or newer';
 
 unit class Toaster;
