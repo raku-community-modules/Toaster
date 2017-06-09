@@ -34,9 +34,8 @@ method toast-all ($commit = 'nom') {
 method toast (@modules, $commit = 'nom') {
     indir self.build-rakudo($commit), {
         my $store = make-temp-dir;
-        my $ver = run(:out, :!err, $*EXECUTABLE.absolute, '-e', ｢
-            print $*PERL.compiler.version.Str
-        ｣).out.slurp: :close;
+        my $ver = shell(:out, :!err,
+          ｢perl6 -e 'print $*PERL.compiler.version.Str｣).out.slurp: :close;
         my $rakudo      = $ver.subst(:th(2..*), '.', '').split('g').tail;
         my $rakudo-long
         = $ver.subst(:th(2, 3), '.', '-').subst(:th(2..*), '.', '');
