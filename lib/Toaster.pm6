@@ -62,7 +62,7 @@ method build-rakudo (Str:D $commit = 'nom') {
         my $com-dir = $commit.subst: :g, /\W/, '_';
         $ = run «rm -fr "$com-dir"»;
         run «git clone "{RAKUDO_REPO}" "$com-dir"»;
-        indir $com-dir, {
+        indir $*CWD.add($com-dir), {
             run «git checkout "$commit"»;
             say "Checkout done";
             run «perl Configure.pl --gen-moar --gen-nqp --backends=moar»;
