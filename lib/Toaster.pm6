@@ -59,18 +59,21 @@ method toast (@modules, $commit = 'nom') {
 method build-rakudo (Str:D $commit = 'nom') {
     say "Starting to build rakudo $commit";
     indir RAKUDO_BUILD_DIR, {
-        $ = run «rm -fr "$commit"»;
-        run «git clone "{RAKUDO_REPO}" "$commit"»;
-        run «git checkout "$commit"»;
-        say "Checkout done";
-        run «perl Configure.pl --gen-moar --gen-nqp --backends=moar»;
-        run «make»;
-        run «make install»;
-        run «git clone "{ZEF_REPO}"»;
+        my $com-dir = $commit.subst: :g, /\W/, '_';
+        $ = run «rm -fr "$com-dir"»;
+        run «git clone "{RAKUDO_REPO}" "$com-dir"»;
+        indir $com-dir, {
+            run «git checkout "$commit"»;
+            say "Checkout done";
+            run «perl Configure.pl --gen-moar --gen-nqp --backends=moar»;
+            run «make»;
+            run «make install»;
+            run «git clone "{ZEF_REPO}"»;
 
-        temp %*ENV;
-        %*ENV<PATH> = $*CWD.add('install/bin').absolute ~ ":$*ENV<PATH>";
-        indir $*CWD.add('zef'), { run «perl6 -Ilib bin/zef install . » }
-        $*CWD.add('install/share/perl6/site/bin').absolute ~ ":$*ENV<PATH>"
+            temp %*ENV;
+            %*ENV<PATH> = $*CWD.add('install/bin').absolute ~ ":$*ENV<PATH>";
+            indir $*CWD.add('zef'), { run «perl6 -Ilib bin/zef install . » }
+            $*CWD.add('install/share/perl6/site/bin').absolute ~ ":$*ENV<PATH>"
+        }
     }
 }
