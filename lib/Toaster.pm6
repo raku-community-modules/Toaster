@@ -59,7 +59,8 @@ method toast (@modules, $commit = 'nom') {
 method build-rakudo (Str:D $commit = 'nom') {
     say "Starting to build rakudo $commit";
     indir RAKUDO_BUILD_DIR, {
-        run «git clone "{RAKUDO_REPO}" .»;
+        $ = run «rm -fr "$commit"»;
+        run «git clone "{RAKUDO_REPO}" "$commit"»;
         run «git checkout "$commit"»;
         say "Checkout done";
         run «perl Configure.pl --gen-moar --gen-nqp --backends=moar»;
