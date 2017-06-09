@@ -37,7 +37,7 @@ method toast (@modules, $commit = 'nom') {
     say "Toasting with path %*ENV<PATH>";
     my $store = make-temp-dir;
     my $ver = shell(:out, :!err,
-      ｢perl6 -e 'print $*PERL.compiler.version.Str｣).out.slurp: :close;
+      ｢perl6 -e 'print $*PERL.compiler.version.Str'｣).out.slurp: :close;
     say "Toasting with version $ver";
     run <zef info Test>; # output some info that zef uses right perl6
     my $rakudo      = $ver.subst(:th(2..*), '.', '').split('g').tail;
