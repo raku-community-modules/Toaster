@@ -32,26 +32,27 @@ method toast-all ($commit = 'nom') {
     self.toast: @modules, $commit;
 }
 method toast (@modules, $commit = 'nom') {
-    indir self.build-rakudo($commit), {
-        my $store = make-temp-dir;
-        my $ver = shell(:out, :!err,
-          ｢perl6 -e 'print $*PERL.compiler.version.Str｣).out.slurp: :close;
-        my $rakudo      = $ver.subst(:th(2..*), '.', '').split('g').tail;
-        my $rakudo-long
-        = $ver.subst(:th(2, 3), '.', '-').subst(:th(2..*), '.', '');
+    temp %*ENV;
+    %*ENV<PATH> = self.build-rakudo: $commit;
+    say "Toasting with path %*ENV<PATH>";
+    my $store = make-temp-dir;
+    my $ver = shell(:out, :!err,
+      ｢perl6 -e 'print $*PERL.compiler.version.Str｣).out.slurp: :close;
+    my $rakudo      = $ver.subst(:th(2..*), '.', '').split('g').tail;
+    my $rakudo-long
+    = $ver.subst(:th(2, 3), '.', '-').subst(:th(2..*), '.', '');
 
-        react whenever proc-q @modules.map({
-            my $where = $store.add(.subst: :g, /\W/, '_').mkdir;
-            «zef --debug install "$_" "-to=inst#$where"»
-        }), :tags[@modules], :$batch, :timeout(INSTALL_TIMEOUT) {
-            my ToastStatus $status = .killed
-              ?? Kill !! .out.contains('FAILED') ?? Fail !! Succ;
+    react whenever proc-q @modules.map({
+        my $where = $store.add(.subst: :g, /\W/, '_').mkdir;
+        «zef --debug install "$_" "-to=inst#$where"»
+    }), :tags[@modules], :$batch, :timeout(INSTALL_TIMEOUT) {
+        my ToastStatus $status = .killed
+          ?? Kill !! .out.contains('FAILED') ?? Fail !! Succ;
 
-            $!db.add: $rakudo, $rakudo-long,
-                .tag, .out, .err, ~.exitcode, $status;
-            say colored "Finished {.tag}: $status",
-                <red green>[$status ~~ Succ];
-        }
+        $!db.add: $rakudo, $rakudo-long,
+            .tag, .out, .err, ~.exitcode, $status;
+        say colored "Finished {.tag}: $status",
+            <red green>[$status ~~ Succ];
     }
 }
 
@@ -59,19 +60,19 @@ method build-rakudo (Str:D $commit = 'nom') {
     say "Starting to build rakudo $commit";
     indir RAKUDO_BUILD_DIR, {
         my $com-dir = $commit.subst: :g, /\W/, '_';
-        $ = run «rm -fr "$com-dir"»;
-        run «git clone "{RAKUDO_REPO}" "$com-dir"»;
+        # $ = run «rm -fr "$com-dir"»;
+        # run «git clone "{RAKUDO_REPO}" "$com-dir"»;
         indir $*CWD.add($com-dir), {
-            run «git checkout "$commit"»;
+            # run «git checkout "$commit"»;
             say "Checkout done";
-            run «perl Configure.pl --gen-moar --gen-nqp --backends=moar»;
-            run «make»;
-            run «make install»;
-            run «git clone "{ZEF_REPO}"»;
+            # run «perl Configure.pl --gen-moar --gen-nqp --backends=moar»;
+            # run «make»;
+            # run «make install»;
+            # run «git clone "{ZEF_REPO}"»;
 
             temp %*ENV;
             %*ENV<PATH> = $*CWD.add('install/bin').absolute ~ ":%*ENV<PATH>";
-            indir $*CWD.add('zef'), { run «perl6 -Ilib bin/zef install . » }
+            # indir $*CWD.add('zef'), { run «perl6 -Ilib bin/zef install . » }
             $*CWD.add('install/share/perl6/site/bin').absolute ~ ":%*ENV<PATH>"
         }
     }
