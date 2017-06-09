@@ -48,7 +48,10 @@ method add (
 }
 
 method all {
-  $!dbh.d.allrows: :array-of-hash
+    with $!dbh.prepare: 'SELECT * FROM toast' {
+        .execute;
+        .allrows: :array-of-hash
+    }
 }
 
 method DESTROY { quietly try self.close }

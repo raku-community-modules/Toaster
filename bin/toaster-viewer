@@ -3,4 +3,6 @@ use lib <lib /var/www/tardigrade>;
 use TG;
 use Toaster::DB;
 
-TG.new.get('/' => '/index').start
+TG.new.get({
+    $^stash<toast> = Toaster::DB.new.all;
+}, '/' => '/index').start

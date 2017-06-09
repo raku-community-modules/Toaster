@@ -1,4 +1,4 @@
 /output/
-/lib/.precomp/
-/toast.sqlite.db
+.precomp
+*.sqlite.db
 /build
