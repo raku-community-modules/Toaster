@@ -50,7 +50,8 @@ method add (
 method all {
     with $!dbh.prepare: 'SELECT * FROM toast' {
         .execute;
-        .allrows: :array-of-hash
+        # https://github.com/perl6/DBIish/issues/93
+        eager .allrows: :array-of-hash;
     }
 }
 
