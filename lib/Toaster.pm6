@@ -29,7 +29,7 @@ method toast-all ($commit = 'nom') {
     my @modules = jget(ECO_API)<dists>.map(*.<name>).sort
         .grep: *.match: BANNED_MODULES.none;
     say "About to toast {+@modules} modules";
-    self.toast: $commit, @modules;
+    self.toast: @modules, $commit;
 }
 method toast (@modules, $commit = 'nom') {
     indir self.build-rakudo($commit), {
