@@ -31,7 +31,7 @@ method toast-all ($commit = 'nom') {
     say "About to toast {+@modules} modules";
     self.toast: $commit, @modules;
 }
-method toast ($commit = 'nom', @modules) {
+method toast (@modules, $commit = 'nom') {
     indir self.build-rakudo($commit), {
         my $store = make-temp-dir;
         my $ver = run(:out, :!err, $*EXECUTABLE.absolute, '-e', ｢
