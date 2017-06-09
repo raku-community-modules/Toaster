@@ -71,9 +71,9 @@ method build-rakudo (Str:D $commit = 'nom') {
             run «git clone "{ZEF_REPO}"»;
 
             temp %*ENV;
-            %*ENV<PATH> = $*CWD.add('install/bin').absolute ~ ":$*ENV<PATH>";
+            %*ENV<PATH> = $*CWD.add('install/bin').absolute ~ ":%*ENV<PATH>";
             indir $*CWD.add('zef'), { run «perl6 -Ilib bin/zef install . » }
-            $*CWD.add('install/share/perl6/site/bin').absolute ~ ":$*ENV<PATH>"
+            $*CWD.add('install/share/perl6/site/bin').absolute ~ ":%*ENV<PATH>"
         }
     }
 }
