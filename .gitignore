@@ -2,3 +2,4 @@
 .precomp
 *.sqlite.db
 /build
+/screenlog.*

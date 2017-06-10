@@ -15,7 +15,16 @@
   </head>
   <body>
     <div class="container">
-      <h1 class="h3">Perl 6 Ecosystem Toaster</h1>
+      <h1 class="h3">Perl 6 Ecosystem Toaster
+        <a href="https://github.com/zoffixznet/perl6-Toaster"
+          class="btn btn-sm btn-primary"
+            ><i class="glyphicon glyphicon-thumbs-up"></i>
+          GitHub repo</a>
+        <a href="https://temp.perl6.party/toast.sqlite.db"
+          class="btn btn-sm btn-success"
+            ><i class="glyphicon glyphicon-save"></i>
+            data as SQLite db</a>
+      </h1>
       <p>Status:
           <strong><%= $^s<burnt_num> %></strong> (<%= $^s<burnt> %>%)
           of modules got burnt <small>(switch from 'Succ' to 'Fail')</small>
@@ -29,8 +38,8 @@
           <thead>
             <tr>
               <th>Module</th>
-              <th data-defaultsort="desc">Burnt</th>
-              <th data-defaultsort="desc">Unsucced</th>
+              <th data-defaultsort="asc">Burnt</th>
+              <th data-defaultsort="asc">Unsucced</th>
               % for @($^s<commits>) {
                 <th><%= $_ %></th>
               % }
