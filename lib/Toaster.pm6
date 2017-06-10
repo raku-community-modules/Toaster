@@ -4,6 +4,7 @@ use RakudoPrereq v2017.05.380.*,
 unit class Toaster;
 
 use Proc::Q;
+use JSON::Fast;
 use Temp::Path;
 use Terminal::ANSIColor;
 use WhereList;
@@ -49,7 +50,7 @@ method toast (@modules, $commit = 'nom') {
         «zef --debug install "$_" "-to=inst#$where"»
     }), :tags[@modules], :$batch, :timeout(INSTALL_TIMEOUT) {
         my ToastStatus $status = .killed
-          ?? Kill !! .out.contains('FAILED') ?? Fail
+          ?? Kill !! .out.contains('FAIL') ?? Fail
             !! .exitcode == 0 ?? Succ !! Unkn;
 
         $!db.add: $rakudo, $rakudo-long,
@@ -76,7 +77,25 @@ method build-rakudo (Str:D $commit = 'nom') {
             temp %*ENV;
             %*ENV<PATH> = $*CWD.add('install/bin').absolute ~ ":%*ENV<PATH>";
             indir $*CWD.add('zef'), { run «perl6 -Ilib bin/zef install . » }
-            $*CWD.add('install/share/perl6/site/bin').absolute ~ ":%*ENV<PATH>"
+            $*ENV<PATH> = $*CWD.add('install/share/perl6/site/bin')
+              .absolute ~ ":%*ENV<PATH>";
+
+            # Turn off auto update for p6c
+            run «zef update»;
+            given run(«zef --help», :err).err.slurp(:close)
+              .lines.grep(*.starts-with: 'CONFIGURATION')
+              .head.words.tail.trim.IO
+            {
+                my $j = from-json .slurp;
+                for |$j<Repository> {
+                    next unless .<short-name> eq 'p6c';
+                    .<options><auto-update> = 0;
+                    last;
+                }
+                .spurt: to-json $j;
+            }
+
+            $*ENV<PATH>
         }
     }
 }
