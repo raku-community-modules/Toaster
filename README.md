@@ -10,7 +10,7 @@ The data for latest toastings I run is available at [toast.perl6.party](https://
 Ecosystem toasting is Serious Business™. **You're LITERALLY running
 arbitrary code from hundreds of strangers!**
 
-It's HIGHLY **UN**recommended to run this software on anything but a throw-away
+It's HIGHLY UNrecommended to run this software on anything but a throw-away
 install that contains no sensitive data. Are you OK if ALL the files on the
 system published somewhere publicly but without you being able to ever get them
 again? If not, don't run this software!
@@ -48,6 +48,12 @@ toasting:
     echo -e '#!/usr/bin/env perl6\nsay 42' > ~/bin/fake-ask-pass
     chmod +x ~/bin/fake-ask-pass
     echo 'export GIT_ASKPASS=~/bin/fake-ask-pass' >> ~/.bashrc
+
+    # ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
+    # ▼▼▼▼▼▼▼▼▼▼ use your own email in that config file ▼▼▼▼▼▼▼▼▼▼▼▼▼
+    # ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
+    mkdir .cpanreporter
+    echo 'email_from=zoffix@cpan.org' > ~/.cpanreporter/config.ini
 
     git clone https://github.com/zoffixznet/perl6-Toaster toaster
     cd toaster
