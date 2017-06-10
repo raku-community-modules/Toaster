@@ -68,7 +68,8 @@ method toast (@modules, $commit = 'nom') {
                 .tag, .err, .out, ~.exitcode, $status;
             say colored "Finished {.tag}: $status",
                 <red green>[$status ~~ Succ];
-            @fails.push: .tag
+
+            @fails.push: .tag unless $status ~~ Succ;
         }
         say "Run is done! Have {+@fails} non-succs";
         @fails;
