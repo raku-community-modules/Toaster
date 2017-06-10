@@ -33,7 +33,9 @@ toasting:
     rakudobrew build moar
     rakudobrew build zef
 
-    zef install Toaster
+    git clone https://github.com/zoffixznet/perl6-Toaster toaster
+    cd toaster
+    zef --serial --/test --depsonly install .
 ```
 
 # Toasting
