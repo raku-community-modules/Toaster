@@ -52,7 +52,7 @@ method toast (@modules, $commit = 'nom') {
           ?? Kill !! .out.contains('FAILED') ?? Fail !! Succ;
 
         $!db.add: $rakudo, $rakudo-long,
-            .tag, .out, .err, ~.exitcode, $status;
+            .tag, .err, .out, ~.exitcode, $status;
         say colored "Finished {.tag}: $status",
             <red green>[$status ~~ Succ];
     }

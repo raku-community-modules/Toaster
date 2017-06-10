@@ -55,6 +55,14 @@ method all {
     }
 }
 
+method module-toast ($name, $rakudo-long) {
+    with $!dbh.prepare:
+      'SELECT * FROM toast where module = ? and rakudo_long = ?' {
+        .execute: $name||'', $rakudo-long||'';
+        (eager .allrows: :array-of-hash).head || ();
+    }
+}
+
 method DESTROY { quietly try self.close }
 method close {
     $!dbh.dispose;

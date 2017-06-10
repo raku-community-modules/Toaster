@@ -1,11 +1,14 @@
 #!/usr/bin/env perl6
 use lib <lib>;
+# use lib </home/zoffix/CPANPRC/tardigrade/lib>;
 use TG;
 use Toaster::DB;
 
+my $DB = Toaster::DB.new;
+
 TG.new
 .get({
-      my $data = Toaster::DB.new.all;
+      my $data = $DB.all;
       $^stash<commits> = $data»<rakudo_long>.unique.sort.List;
       $stash<results>{.<module>}{ .<rakudo_long> } = .<status> for |$data;
 
@@ -29,5 +32,11 @@ TG.new
 
       $stash<unsucced> = sprintf '%0.2f', 100 * $unsucced / $stash<results>;
       $stash<unsucced_num> = $unsucced;
-    }, '/' => '/index'
-).start
+}, '/' => '/index')
+
+.get(-> $stash, $env {
+    dd [$env.q];
+    $stash<mod> = %($DB.module-toast: |$env.q<module commit>);
+}, '/module')
+
+.start
