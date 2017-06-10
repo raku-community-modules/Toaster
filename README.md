@@ -10,6 +10,10 @@ install that contains no sensitive data. Are you OK if ALL the files on the
 system published somewhere publicly but without you being able to ever get them
 again? If not, don't run this software!
 
+# Rakudo Prereq
+
+You need Rakudo `v2017.05.380.*` or newer to run this software.
+
 # Blank Debian GCE VM Setup
 
 On an out-of-the-box Debian, run these commands to prepare the system for
@@ -42,10 +46,12 @@ toasting:
 
 To toast the ecosystem, run the `bin/toaster-perl6` command, giving it as
 positionals args the tags, branches or commits (basically anything
-`git checkout` will accept).
+`git checkout` will accept). The toaster will build rakudos for the requested
+commits so ensure you've got space for that + anything the modules need, for
+each of the commits you're toasting.
 
-Note: toasting takes ages (~50 minutes on a 24-core box), so don't go wild with
-toasting all the commits, if you're not prepared to wait for it.
+**Note:** toasting takes ages (~50 minutes on a 24-core box), so don't go wild
+with toasting all the commits, if you're not prepared to wait for it.
 
 The toaster will create an SQLite database in `toast.sqlite.db` file, with
 toasting results for each of the toasted module, and each of the given commits.
