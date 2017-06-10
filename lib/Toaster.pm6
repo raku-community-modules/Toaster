@@ -47,7 +47,7 @@ method toast (@modules, $commit = 'nom') {
 
     react whenever proc-q @modules.map({
         my $where = $store.add(.subst: :g, /\W/, '_').mkdir;
-        «zef --debug install "$_" "-to=inst#$where"»
+        «zef --/cache --debug install "$_" "-to=inst#$where"»
     }), :tags[@modules], :$batch, :timeout(INSTALL_TIMEOUT) {
         my ToastStatus $status = .killed
           ?? Kill !! .out.contains('FAIL') ?? Fail
