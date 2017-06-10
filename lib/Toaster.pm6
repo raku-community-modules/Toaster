@@ -61,7 +61,7 @@ method toast (@modules, $commit = 'nom') {
                 <red green>[$status ~~ Succ];
             @fails.push: .tag
         }
-        say "Run is done! Have {+@fails} non-succs"
+        say "Run is done! Have {+@fails} non-succs";
         @fails;
     }
     toast-it toast-it toast-it @modules;
