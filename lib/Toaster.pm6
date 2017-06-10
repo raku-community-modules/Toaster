@@ -45,19 +45,26 @@ method toast (@modules, $commit = 'nom') {
     my $rakudo-long
     = $ver.subst(:th(2, 3), '.', '-').subst(:th(2..*), '.', '');
 
-    react whenever proc-q @modules.map({
-        my $where = $store.add(.subst: :g, /\W/, '_').mkdir;
-        «zef --/cache --debug install "$_" "-to=inst#$where"»
-    }), :tags[@modules], :$batch, :timeout(INSTALL_TIMEOUT) {
-        my ToastStatus $status = .killed
-          ?? Kill !! .out.contains('FAIL') ?? Fail
-            !! .exitcode == 0 ?? Succ !! Unkn;
+    sub toast-it (@modules) {
+        my @fails;
+        react whenever proc-q @modules.map({
+            my $where = $store.add(.subst: :g, /\W/, '_').mkdir;
+            «zef --/cache --debug install "$_" "-to=inst#$where"»
+        }), :tags[@modules], :$batch, :timeout(INSTALL_TIMEOUT) {
+            my ToastStatus $status = .killed
+              ?? Kill !! .out.contains('FAIL') ?? Fail
+                !! .exitcode == 0 ?? Succ !! Unkn;
 
-        $!db.add: $rakudo, $rakudo-long,
-            .tag, .err, .out, ~.exitcode, $status;
-        say colored "Finished {.tag}: $status",
-            <red green>[$status ~~ Succ];
+            $!db.add: $rakudo, $rakudo-long,
+                .tag, .err, .out, ~.exitcode, $status;
+            say colored "Finished {.tag}: $status",
+                <red green>[$status ~~ Succ];
+            @fails.push: .tag
+        }
+        say "Run is done! Have {+@fails} non-succs"
+        @fails;
     }
+    toast-it toast-it toast-it @modules;
 }
 
 method build-rakudo (Str:D $commit = 'nom') {
