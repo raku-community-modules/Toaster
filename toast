@@ -1,0 +1,2 @@
+#!/bin/sh
+screen -L -S toast time perl6 bin/toaster-perl6 nom 2017.05
