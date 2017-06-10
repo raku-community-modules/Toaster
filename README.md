@@ -83,12 +83,12 @@ sqlite3 toast.sqlite.db
 #### REPOSITORY
 
 Fork this module on GitHub:
-https://github.com/zoffixznet/perl6-Proc-Q
+https://github.com/zoffixznet/perl6-Toaster
 
 #### BUGS
 
 To report bugs or request features, please use
-https://github.com/zoffixznet/perl6-Proc-Q/issues
+https://github.com/zoffixznet/perl6-Toaster/issues
 
 #### AUTHOR
 
