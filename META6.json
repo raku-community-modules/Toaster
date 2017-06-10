@@ -6,6 +6,7 @@
     "description"  : "Toaster of Perl 6 Ecosystem Modules",
     "tags"         : [ "ecosystem", "testing" ],
     "depends"      : [
+        "File::Find",
         "Terminal::ANSIColor",
         "DBIish",
         "Temp::Path",

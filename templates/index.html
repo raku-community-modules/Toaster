@@ -11,28 +11,62 @@
     <link rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"   integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
       crossorigin="anonymous">
+    <link rel="stylesheet" href="https://map.perl6.party/sort.css">
   </head>
   <body>
     <div class="container">
       <h1 class="h3">Perl 6 Ecosystem Toaster</h1>
+      <p>Status:
+          <strong><%= $^s<burnt_num> %></strong> (<%= $^s<burnt> %>%)
+          of modules got burnt <small>(switch from 'Succ' to 'Fail')</small>
+          and
+          <strong><%= $^s<unsucced_num> %></strong> (<%= $^s<unsucced> %>%)
+          of modules got unsucced <small>(switch from 'Succ' to 'Kill', 'Fail', or
+          unknown status)</small>.
+      </p>
       <div class="table-responsive">
-        <table class="table">
+        <table class="sortable table table-condensed">
           <thead>
             <tr>
-              % for $^s<toast><> {
-                %= .<status>
+              <th>Module</th>
+              <th data-defaultsort="desc">Burnt</th>
+              <th data-defaultsort="desc">Unsucced</th>
+              % for @($^s<commits>) {
+                <th><%= $_ %></th>
               % }
             </tr>
           </thead>
           <tbody>
-
+            % for @($s<results>) -> $m {
+              <tr>
+                  <td><a href="https://modules.perl6.org/dist/<%= $m.key %>"
+                    ><%= $m.key %></a></td>
+                  <td><%= $m.value<burnt> ?? 'Burnt' !! ''  %></td>
+                  <td><%= $m.value<unsucced> ?? 'Unsucced' !! '' %></td>
+                  % for @($s<commits>) {
+                    % if ($m.value{$_}//'') eq 'Succ' {
+                      <td class="success"><%= $m.value{$_}//'' %></td>
+                    % } elsif ($m.value{$_}//'') eq 'Fail' {
+                      <td class="danger"><%= $m.value{$_}//'' %></td>
+                    % } else {
+                      <td class="warning"><%= $m.value{$_}//'' %></td>
+                    % }
+                  % }
+              </tr>
+            % }
           </tbody>
         </table>
       </div>
     </div>
     <script
+      src="https://code.jquery.com/jquery-3.2.1.min.js"
+      integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+      crossorigin="anonymous"></script>
+    <script
     src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
     integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
     crossorigin="anonymous"></script>
+    <script src="https://map.perl6.party/moment.js"></script>
+    <script src="https://map.perl6.party/sort.js"></script>
   </body>
 </html>
