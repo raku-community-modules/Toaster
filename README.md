@@ -57,7 +57,7 @@ The toaster will create an SQLite database in `toast.sqlite.db` file, with
 toasting results for each of the toasted module, and each of the given commits.
 
 ```bash
-    toaster-perl6 2017.03 2017.05 some-branch nom 64e898f9baa159e2019
+    perl6 bin/toaster-perl6 2017.03 2017.05 some-branch nom 64e898f9baa159e2019
 ```
 
 # Viewing
