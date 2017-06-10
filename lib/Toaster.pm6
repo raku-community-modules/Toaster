@@ -95,9 +95,8 @@ method build-rakudo (Str:D $commit = 'nom') {
             {
                 my $j = from-json .slurp;
                 for |$j<Repository> {
-                    next unless .<short-name> eq 'p6c';
+                    next unless .<short-name> eq 'p6c'|'cpan';
                     .<options><auto-update> = 0;
-                    last;
                 }
                 .spurt: to-json $j;
             }
