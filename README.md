@@ -32,7 +32,7 @@ toasting:
     \curl -L https://install.perlbrew.pl | bash
     git clone https://github.com/tadzik/rakudobrew ~/.rakudobrew
     echo 'source ~/perl5/perlbrew/etc/bashrc' >> ~/.bashrc
-    echo 'export PATH=~/.rakudobrew/bin:~/.rakudobrew/moar-nom/install/share/perl6/site/bin:$PATH' >> ~/.bashrc
+    echo 'export PATH=~/bin:~/.rakudobrew/bin:~/.rakudobrew/moar-nom/install/share/perl6/site/bin:$PATH' >> ~/.bashrc
     wget https://temp.perl6.party/.bash_aliases
     echo 'source ~/.bash_aliases' >> ~/.bashrc
     source ~/.bashrc
@@ -41,6 +41,13 @@ toasting:
     perlbrew install-cpanm
     rakudobrew build moar
     rakudobrew build zef
+
+    # This one is to ensure git doesn't freeze up, waiting for a pass on some
+    # dists that have wrong URL for source. The script gives it bogus pass
+    # to use, so it just fails authen and moves on
+    echo -e '#!/usr/bin/env perl6\nsay 42' > ~/bin/fake-ask-pass
+    chmod +x ~/bin/fake-ask-pass
+    echo 'export GIT_ASKPASS=~/bin/fake-ask-pass' >> ~/.bashrc
 
     git clone https://github.com/zoffixznet/perl6-Toaster toaster
     cd toaster

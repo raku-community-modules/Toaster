@@ -4,7 +4,7 @@ use DBIish;
 has $.db = 'toast.sqlite.db';
 has $!dbh;
 
-enum ToastStatus is export <Succ Fail Kill>;
+enum ToastStatus is export <Succ Fail Kill Unkn>;
 
 submethod TWEAK {
     my $exists = $!db.IO.e;

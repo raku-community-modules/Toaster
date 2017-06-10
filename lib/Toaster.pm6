@@ -49,7 +49,8 @@ method toast (@modules, $commit = 'nom') {
         «zef --debug install "$_" "-to=inst#$where"»
     }), :tags[@modules], :$batch, :timeout(INSTALL_TIMEOUT) {
         my ToastStatus $status = .killed
-          ?? Kill !! .out.contains('FAILED') ?? Fail !! Succ;
+          ?? Kill !! .out.contains('FAILED') ?? Fail
+            !! .exitcode == 0 ?? Succ !! Unkn;
 
         $!db.add: $rakudo, $rakudo-long,
             .tag, .err, .out, ~.exitcode, $status;
