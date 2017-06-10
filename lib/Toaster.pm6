@@ -19,7 +19,16 @@ constant ECO_API          = 'https://modules.perl6.org/.json';
 constant RAKUDO_REPO      = 'https://github.com/rakudo/rakudo';
 constant ZEF_REPO         = 'https://github.com/ugexe/zef';
 constant RAKUDO_BUILD_DIR = 'build'.IO.mkdir.self;
-constant BANNED_MODULES   = (); # regex objects to regex over the name
+constant BANNED_MODULES   = (
+    # regex objects to regex over the name
+    /« [
+      |'November'
+      |'HTTP::Server::Threaded'
+      |'HTTP::Server::Async'
+      |'MeCab'
+      |'Time::Duration'
+    ]»/,
+);
 
 my $batch = floor 1.3 * do with run 'lscpu', :out, :!err {
     .out.lines(:close).grep(*.contains: 'CPU(s)').head andthen .words.tail.Int
