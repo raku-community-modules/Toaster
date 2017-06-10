@@ -38,15 +38,15 @@ toasting:
 
 # Toasting
 
-To toast the ecosystem, run the `toaster-perl6` command, giving it as
+To toast the ecosystem, run the `bin/toaster-perl6` command, giving it as
 positionals args the tags, branches or commits (basically anything
 `git checkout` will accept).
 
 Note: toasting takes ages (~50 minutes on a 24-core box), so don't go wild with
 toasting all the commits, if you're not prepared to wait for it.
 
-The toaster will create an SQLite database, with toasting results for each
-of the toasted module, and each of the given commits.
+The toaster will create an SQLite database in `toast.sqlite.db` file, with
+toasting results for each of the toasted module, and each of the given commits.
 
 ```bash
     toaster-perl6 2017.03 2017.05 some-branch nom 64e898f9baa159e2019
