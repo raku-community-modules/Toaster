@@ -77,7 +77,7 @@ method build-rakudo (Str:D $commit = 'nom') {
             temp %*ENV;
             %*ENV<PATH> = $*CWD.add('install/bin').absolute ~ ":%*ENV<PATH>";
             indir $*CWD.add('zef'), { run «perl6 -Ilib bin/zef install . » }
-            $*ENV<PATH> = $*CWD.add('install/share/perl6/site/bin')
+            %*ENV<PATH> = $*CWD.add('install/share/perl6/site/bin')
               .absolute ~ ":%*ENV<PATH>";
 
             # Turn off auto update for p6c
@@ -95,7 +95,7 @@ method build-rakudo (Str:D $commit = 'nom') {
                 .spurt: to-json $j;
             }
 
-            $*ENV<PATH>
+            %*ENV<PATH>
         }
     }
 }
