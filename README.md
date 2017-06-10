@@ -5,7 +5,7 @@
 Ecosystem toasting is Serious Business™. **You're LITERALLY running
 arbitrary code from hundreds of strangers!**
 
-It's HIGHLY unrecommended to run this software on anything but a throw-away
+It's HIGHLY **UN**recommended to run this software on anything but a throw-away
 install that contains no sensitive data. Are you OK if ALL the files on the
 system published somewhere publicly but without you being able to ever get them
 again? If not, don't run this software!
