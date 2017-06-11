@@ -44,6 +44,7 @@ method toast-all ($commit = 'nom') {
 method toast (@modules, $commit = 'nom') {
     temp %*ENV;
     %*ENV<PATH> = self.build-rakudo: $commit;
+    %*ENV<ALL_TESTING  NETWORK_TESTING  ONLINE_TESTING> = 1, 1, 1;
     say "Toasting with path %*ENV<PATH>";
     my $ver = shell(:out, :!err,
       ｢perl6 -e 'print $*PERL.compiler.version.Str'｣).out.slurp: :close;
@@ -58,7 +59,7 @@ method toast (@modules, $commit = 'nom') {
         my $store = make-temp-dir;
         react whenever proc-q @modules.map({
             my $where = $store.add(.subst: :g, /\W/, '_').mkdir;
-            «zef --/cached --debug install "$_" "-to=inst#$where"»
+            «zef --/cached --debug install "$_" "--install-to=inst#$where"»
         }), :tags[@modules], :$batch, :timeout(INSTALL_TIMEOUT) {
             my ToastStatus $status = .killed
               ?? Kill !! .out.contains('FAIL') ?? Fail
