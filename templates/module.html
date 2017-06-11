@@ -32,7 +32,8 @@
       </h1>
       <div class="mod-details">
       % with $^s<mod> {
-        <h2><%= .<module> %> <small>toasted on
+        <h2><a href="https://modules.perl6.org/repo/<%= .<module> %>"
+            ><%= .<module> %></a> <small>toasted on
             <b><%= .<rakudo_long> %></b></small></h2>
         <p class="lead">Status: <b><%= .<status> %></b>;
             Exit code: <b><%= .<exitcode> %></b></p>
