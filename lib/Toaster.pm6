@@ -27,6 +27,7 @@ constant BANNED_MODULES   = (
       |'HTTP::Server::Async'
       |'MeCab'
       |'Time::Duration'
+      |'Task::Galaxy'
     ]»/,
 );
 
