@@ -30,13 +30,19 @@
             ><i class="glyphicon glyphicon-save"></i>
             data as SQLite db</a>
       </h1>
-      <p>Status:
+      <p><b>Status:</b>
           <strong><%= $^s<burnt_num> %></strong> (<%= $^s<burnt> %>%)
           of modules got burnt <small>(switch from 'Succ' to 'Fail')</small>
           and
           <strong><%= $^s<unsucced_num> %></strong> (<%= $^s<unsucced> %>%)
           of modules got unsucced <small>(switch from 'Succ' to 'Kill', 'Fail', or
           unknown status)</small>.
+          <br>
+
+          On latest toasted commit, <strong><%= $^s<unusable_num> %></strong>
+            out of <strong><%= $^s<total_num> %></strong>
+            (<%= $^s<unusable> %>%) appear to be unusable modules
+          <small>(at least on the system that toasting was done on)</small>.
       </p>
       <div class="table-responsive">
         <table class="sortable table table-condensed">

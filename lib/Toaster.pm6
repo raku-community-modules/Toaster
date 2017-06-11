@@ -28,6 +28,7 @@ constant BANNED_MODULES   = (
       |'MeCab'
       |'Time::Duration'
       |'Task::Galaxy'
+      |'Uzu'
     ]»/,
 );
 
