@@ -77,7 +77,7 @@ method toast (@modules, $commit = 'nom') {
         say "Run is done! Have {+@fails} non-succs";
         @fails;
     }
-    toast-it toast-it toast-it @modules;
+    toast-it toast-it @modules;
 }
 
 method build-rakudo (Str:D $commit = 'nom') {
