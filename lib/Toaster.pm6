@@ -29,7 +29,7 @@ constant BANNED_MODULES   = (
       |'Time::Duration'
       |'Task::Galaxy'
       |'Uzu'
-      |'IRC::Client' <!before '::'>
+      |'IRC::Client'
     ]»/,
 );
 
