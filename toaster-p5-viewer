@@ -12,7 +12,7 @@ get '/' => sub {
 
     my $data = $sql->db->select('toast')->hashes->to_array;
     my $stash;
-    $stash->{commits} = [uniq map $_->{rakudo_long}, @$data];
+    $stash->{commits} = [sort +uniq map $_->{rakudo_long}, @$data];
     $stash->{results}{ $_->{module} }{ $_->{rakudo_long} } = $_->{status}
       for @$data;
 
