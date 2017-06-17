@@ -44,7 +44,17 @@ get '/' => sub {
     $stash->{unusable} = sprintf '%0.2f', 100 * $unusable / $stash->{total_num};
 
     $c->stash(%$stash);
-} => 'index';
+    $c->respond_to(
+        html => {template => 'index'},
+        json => { json => (
+            $c->param('stats_only') ? {
+                map +($_ => $stash->{$_}), qw/
+                    burnt_num  burnt  unsucced_num  unsucced
+                    unusable_num  total_num  commits/
+            } : $stash)
+        },
+    );
+};
 
 get '/module' => sub {
     my $c = shift;
