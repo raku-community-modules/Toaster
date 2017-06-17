@@ -33,14 +33,14 @@ get '/' => sub {
         }
         $unusable++ if $after ne 'Succ';
     }
-    $stash->{burnt} = sprintf '%0.2f', 100 * $burnt / $stash->{results};
+    $stash->{total_num} = scalar keys %{$stash->{results}};
+    $stash->{burnt} = sprintf '%0.2f', 100 * $burnt / $stash->{total_num};
     $stash->{burnt_num} = $burnt;
 
-    $stash->{unsucced} = sprintf '%0.2f', 100 * $unsucced / $stash->{results};
+    $stash->{unsucced} = sprintf '%0.2f', 100 * $unsucced / $stash->{total_num};
     $stash->{unsucced_num} = $unsucced;
 
     $stash->{unusable_num} = $unusable;
-    $stash->{total_num}    = scalar keys %{$stash->{results}};
     $stash->{unusable} = sprintf '%0.2f', 100 * $unusable / $stash->{total_num};
 
     $c->stash(%$stash);
