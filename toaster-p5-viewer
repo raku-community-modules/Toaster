@@ -5,6 +5,7 @@ use Mojo::SQLite;
 use List::Util qw/uniq/;
 
 my $sql = Mojo::SQLite->new('toast.sqlite.db');
+app->config({ hypnotoad => { listen => ['http://*:3333'], proxy => 1 } });
 
 get '/' => sub {
     my $c = shift;
