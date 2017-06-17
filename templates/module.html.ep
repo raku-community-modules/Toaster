@@ -19,8 +19,8 @@
       Exit code: <b><%= $_->{exitcode} %></b></p>
 
   <h3>STDERR</h3>
-  <textarea cols="80" rows="20"><%= $_->{stderr} %></textarea>
+  <textarea cols="80" rows="20" style="width: 100%"><%= $_->{stderr} %></textarea>
   <h3>STDOUT</h3>
-  <textarea cols="80" rows="20"><%= $_->{stdout} %></textarea>
+  <textarea cols="80" rows="20" style="width: 100%"><%= $_->{stdout} %></textarea>
 % }
 </div>
