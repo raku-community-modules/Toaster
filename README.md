@@ -62,6 +62,12 @@ toasting:
     git clone https://github.com/zoffixznet/perl6-Toaster toaster
     cd toaster
     zef --serial --/test --depsonly install .
+    
+    # ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
+    # ▼▼▼▼▼▼▼▼▼▼ specify which commits/tags to toast    ▼▼▼▼▼▼▼▼▼▼▼▼▼
+    # ▼▼▼▼▼▼▼▼▼▼ command below toasts 2017.07, then nom ▼▼▼▼▼▼▼▼▼▼▼▼▼
+    # ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
+    screen -L -S toast /usr/bin/time perl6 bin/toaster-perl6 2017.07 nom
 ```
 
 # Toasting
