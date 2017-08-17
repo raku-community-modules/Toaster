@@ -15,7 +15,7 @@ use Toaster::DB;
 has $.db = Toaster::DB.new;
 
 constant INSTALL_TIMEOUT  = 10*60;
-constant ECO_API          = 'https://modules.perl6.org/search/.json';
+constant ECO_API          = 'https://modules.perl6.org/search.json';
 constant RAKUDO_REPO      = 'https://github.com/rakudo/rakudo';
 constant ZEF_REPO         = 'https://github.com/ugexe/zef';
 constant RAKUDO_BUILD_DIR = 'build'.IO.mkdir.self;
