@@ -31,6 +31,7 @@ constant BANNED_MODULES   = (
       |'Uzu'
       |'IRC::Client'
       |'Log::Minimal'
+      |'Toaster'
     ]»/,
 );
 
