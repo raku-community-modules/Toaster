@@ -30,6 +30,7 @@ constant BANNED_MODULES   = (
       |'Task::Galaxy'
       |'Uzu'
       |'IRC::Client'
+      |'Log::Minimal'
     ]»/,
 );
 
