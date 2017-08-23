@@ -93,7 +93,18 @@ toasting results for each of the toasted module, and each of the given commits.
 ## Perl Mojolicious
 
 The [Molicious](http://mojolicious.org/)-based viewer is currently the most up-to-date
-and recommended. To use it, install necessary Perl modules.
+and recommended. To use it, install Perl, unless you already have it:
+
+```bash
+\curl -L https://install.perlbrew.pl | bash
+echo 'source ~/perl5/perlbrew/etc/bashrc' >> ~/.bashrc
+source ~/.bashrc
+perlbrew install perl-5.26.0 --notest -Duseshrplib -Dusemultiplicity
+perlbrew switch perl-5.26.0
+perlbrew install-cpanm
+```
+
+Then install necessary Perl modules:
 
 ```bash
     cpanm -vn Mojolicious::Lite Mojo::SQLite List::Util
