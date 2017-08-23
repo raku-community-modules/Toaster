@@ -90,14 +90,44 @@ toasting results for each of the toasted module, and each of the given commits.
 
 # Viewing
 
-Just run `bin/toaster-viewer` and then go to `http://localhost:3333` to view
-the site.
+## Perl Mojolicious
+
+The [Molicious](http://mojolicious.org/)-based viewer is currently the most up-to-date
+and recommended. To use it, install necessary Perl modules.
+
+```bash
+    cpanm -vn Mojolicious::Lite Mojo::SQLite List::Util
+```
+
+Then run the development version of the viewer if you want extra
+debugging output:
+
+```bash
+   ./morbo
+```
+
+Or just run the production version of the viewer:
+
+```bash
+    ./hyp
+```
+
+Then go to `http://localhost:3333` to view the site.
+
+## Rakudo
+
+To use rakudo for running the viewer, run `bin/toaster-viewer` and then go to `http://localhost:3333` to
+view the site.
 
 You'll need *Tardigrade* Web framework to run it:
 
 ```bash
 zef --/test install https://github.com/zoffixznet/tardigrade/archive/master.zip
 ```
+
+Note that currently this method appears to leak memory in one of the supporting modules.
+
+## SQL
 
 Alternatively, just use SQL queries to view the results. They're all in
 the generated `toast.sqlite.db` file.
