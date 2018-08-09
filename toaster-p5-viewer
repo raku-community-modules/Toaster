@@ -69,7 +69,7 @@ get '/module' => sub {
     $c->stash(
         mod => $sql->db->select('toast', undef, {
             module => $c->param('module'), rakudo_long => $c->param('commit'),
-        })->hashes->first,
+        })->hashes->first->map(sub { $_->{time_human} = gmtime $_->{time} }),
     );
 };
 

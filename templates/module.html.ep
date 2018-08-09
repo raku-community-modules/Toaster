@@ -14,7 +14,7 @@
 % for (grep defined, stash 'mod') {
   <h2><a href="https://modules.perl6.org/repo/<%= $_->{module} %>"
       ><%= $_->{module} %></a> <small>toasted on
-      <b><%= $_->{rakudo_long} %></b></small></h2>
+      <b><%= $_->{rakudo_long} %></b> at <%= $_->{time_human} %></small></h2>
   <p class="lead">Status: <b><%= $_->{status} %></b>;
       Exit code: <b><%= $_->{exitcode} %></b></p>
 
