@@ -3,7 +3,7 @@ use lib <lib>;
 use Toaster;
 use WhereList;
 
-sub MAIN (*@commits where all-items(Str, *.so)) {
+sub MAIN (*@commits where all-items(Str, *.so), Bool :$no-build) {
     @commits ||= 'master';
-    Toaster.new.toast-all: $_ for @commits;
+    Toaster.new.toast-all: $_, :$no-build for @commits;
 }

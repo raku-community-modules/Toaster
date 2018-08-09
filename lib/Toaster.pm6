@@ -40,15 +40,15 @@ my $batch = floor 1.3 * do with run 'lscpu', :out, :!err {
 } || 8;
 
 
-method toast-all ($commit = 'master') {
+method toast-all ($commit = 'master', Bool :$no-build) {
     my @modules = jget(ECO_API)<dists>.map(*.<name>).sort
         .grep: *.match: BANNED_MODULES.none;
     say "About to toast {+@modules} modules";
     self.toast: @modules, $commit;
 }
-method toast (@modules, $commit = 'master') {
+method toast (@modules, $commit = 'master', Bool :$no-build) {
     temp %*ENV;
-    %*ENV<PATH> = self.build-rakudo: $commit;
+    %*ENV<PATH> = self.build-rakudo: $commit, :$no-build;
     %*ENV<ALL_TESTING  NETWORK_TESTING  ONLINE_TESTING> = 1, 1, 1;
     say "Toasting with path %*ENV<PATH>";
     my $ver = shell(:out, :!err,
@@ -83,23 +83,28 @@ method toast (@modules, $commit = 'master') {
     toast-it toast-it @modules;
 }
 
-method build-rakudo (Str:D $commit = 'master') {
-    say "Starting to build rakudo $commit";
+method build-rakudo (Str:D $commit = 'master', Bool :$no-build) {
+    say $no-build ?? "Trying to use exisitng build for rakudo $commit"
+                  !! "Starting to build rakudo $commit";
     indir RAKUDO_BUILD_DIR, {
         my $com-dir = $commit.subst: :g, /\W/, '_';
-        $ = run «rm -fr "$com-dir"»;
-        run «git clone "{RAKUDO_REPO}" "$com-dir"»;
+        unless $no-build {
+            $ = run «rm -fr "$com-dir"»;
+            run «git clone "{RAKUDO_REPO}" "$com-dir"»;
+        }
         indir $*CWD.add($com-dir), {
-            run «git checkout "$commit"»;
-            say "Checkout done";
-            run «perl Configure.pl --gen-moar --gen-nqp --backends=moar»;
-            run «make»;
-            run «make install»;
-            run «git clone "{ZEF_REPO}"»;
+            unless $no-build {
+                run «git checkout "$commit"»;
+                say "Checkout done";
+                run «perl Configure.pl --gen-moar --gen-nqp --backends=moar»;
+                run «make»;
+                run «make install»;
+                run «git clone "{ZEF_REPO}"»;
+            }
 
             temp %*ENV;
             %*ENV<PATH> = $*CWD.add('install/bin').absolute ~ ":%*ENV<PATH>";
-            indir $*CWD.add('zef'), { run «perl6 -Ilib bin/zef install . » }
+            $no-build || indir $*CWD.add('zef'), { run «perl6 -Ilib bin/zef install . » }
             %*ENV<PATH> = $*CWD.add('install/share/perl6/site/bin')
               .absolute ~ ":%*ENV<PATH>";
 

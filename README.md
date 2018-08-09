@@ -88,6 +88,10 @@ toasting results for each of the toasted module, and each of the given commits.
     perl6 bin/toaster-perl6 2017.03 2017.05 some-branch master 64e898f9baa159e2019
 ```
 
+The binary supports `--no-build` command line flag, which will avoid compiling the compiler. This
+option is handy to use when a previous toasting sessions was interrupted for some reason. You can
+restart the toast using the already-built compiler.
+
 # Viewing
 
 ## Perl Mojolicious
