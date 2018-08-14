@@ -1,5 +1,3 @@
-[![Build Status](https://travis-ci.org/zoffixznet/perl6-Proc-Q.svg)](https://travis-ci.org/zoffixznet/perl6-Proc-Q)
-
 # Live Site
 
 The data for latest toastings I run is available at [toast.perl6.party](https://toast.perl6.party)
@@ -59,7 +57,7 @@ toasting:
     mkdir .cpanreporter
     echo 'email_from=zoffix@cpan.org' > ~/.cpanreporter/config.ini
 
-    git clone https://github.com/zoffixznet/perl6-Toaster toaster
+    git clone https://github.com/perl6-community-modules/perl6-Toaster toaster
     cd toaster
     zef --serial --/test --depsonly install .
 
@@ -156,12 +154,12 @@ sqlite3 toast.sqlite.db
 #### REPOSITORY
 
 Fork this module on GitHub:
-https://github.com/zoffixznet/perl6-Toaster
+https://github.com/perl6-community-modules/perl6-Toaster
 
 #### BUGS
 
 To report bugs or request features, please use
-https://github.com/zoffixznet/perl6-Toaster/issues
+https://github.com/perl6-community-modules/perl6-Toaster/issues
 
 #### AUTHOR
 
