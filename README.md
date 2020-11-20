@@ -1,8 +1,3 @@
-# Live Site
-
-The data for latest toastings I run is available at [toast.perl6.party](https://toast.perl6.party)
-
-
 # WARNING!! DANGERUS STUF AHED!
 
 Ecosystem toasting is Serious Business™. **You're LITERALLY running
@@ -154,12 +149,12 @@ sqlite3 toast.sqlite.db
 #### REPOSITORY
 
 Fork this module on GitHub:
-https://github.com/perl6-community-modules/perl6-Toaster
+https://github.com/raku-community-modules/Toaster
 
 #### BUGS
 
 To report bugs or request features, please use
-https://github.com/perl6-community-modules/perl6-Toaster/issues
+https://github.com/raku-community-modules/Toaster/issues
 
 #### AUTHOR
 
